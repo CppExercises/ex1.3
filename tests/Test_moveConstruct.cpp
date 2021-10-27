@@ -22,8 +22,12 @@ int main() {
               "Data was not moved from old list");
   TEST_ASSERT(newList.size() == originalSize, "Size was changed during move");
   {
-    std::size_t counter = 0;
+    std::size_t counter = 1;
     auto currentElement = newList.data();
+    // check first element
+    TEST_ASSERT(currentElement->value == 3.1415,
+                "First element is wrong after move")
+    currentElement = currentElement->next;
     while (currentElement != nullptr) {
       TEST_ASSERT(currentElement->value == value,
                   "Values of list have changed during move");

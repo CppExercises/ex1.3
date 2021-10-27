@@ -20,7 +20,8 @@ int main() {
   // check validity of new list
   TEST_ASSERT(newList.data() != originalData,
               "Data was moved from old list instead of copied");
-  TEST_ASSERT(newList.size() == originalSize, "New list has wrong size");
+  TEST_ASSERT(newList.size() == originalSize,
+              "New list has wrong size " + std::to_string(newList.size()));
 
   // check validity of old list
   TEST_ASSERT(list.data() == originalData, "Old list has changed during copy");
@@ -44,7 +45,8 @@ int main() {
       oldElement = oldElement->next;
       ++counter;
     }
-    TEST_ASSERT(counter == originalSize, "List has wrong size after copy");
+    TEST_ASSERT(counter == originalSize, "New list has wrong size after copy " +
+                                             std::to_string(counter));
   }
 
   return EXIT_SUCCESS;
