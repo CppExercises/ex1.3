@@ -26,16 +26,18 @@ int main() {
   TEST_ASSERT(list.size() == numberOfElements, "Old list has new size " + std::to_string(list.size()) + " after copy");
 
   // check if they are equal after copy
-  auto newElement = newList.data();
-  auto oldElement = list.data();
-  std::size_t counter = 0;
-  while(newElement != nullptr && oldElement != nullptr) {
-    TEST_ASSERT(newElement->value == oldElement->value, "New list and old list have different values: " + std::to_string(newElement->value) + " != " + std::to_string(oldElement->value));
-    newElement = newElement->next;
-    oldElement = oldElement->next;
-    ++counter;
+  {
+    auto newElement = newList.data();
+    auto oldElement = list.data();
+    std::size_t counter = 0;
+    while(newElement != nullptr && oldElement != nullptr) {
+      TEST_ASSERT(newElement->value == oldElement->value, "New list and old list have different values: " + std::to_string(newElement->value) + " != " + std::to_string(oldElement->value));
+      newElement = newElement->next;
+      oldElement = oldElement->next;
+      ++counter;
+    }
+    TEST_ASSERT(counter == numberOfElements, "List has wrong size after copy");
   }
-  TEST_ASSERT(counter == numberOfElements, "List has wrong size after copy");
 
   return EXIT_SUCCESS;
 }

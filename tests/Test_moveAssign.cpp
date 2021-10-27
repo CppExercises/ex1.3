@@ -19,19 +19,34 @@ int main() {
   // check validity of new list
   TEST_ASSERT(newList.data() == originalData, "Data was not moved from old list");
   TEST_ASSERT(newList.size() == originalSize, "Size was changed during move");
-  std::size_t counter = 0;
-  auto currentElement = newList.data();
-  while(currentElement != nullptr) {
-    TEST_ASSERT(currentElement->value == value, "Values of list have changed during move");
-    currentElement = currentElement->next;
-    ++counter;
+  {
+    std::size_t counter = 0;
+    auto currentElement = newList.data();
+    while(currentElement != nullptr) {
+      TEST_ASSERT(currentElement->value == value, "Values of list have changed during move");
+      currentElement = currentElement->next;
+      ++counter;
+    }
+    TEST_ASSERT(counter == numberOfElements, "List has wrong size after move");
   }
-  TEST_ASSERT(counter == numberOfElements, "List has wrong size after move");
+  
 
   // check validity of old list
   TEST_ASSERT(list.data() != originalData, "Old list still holds reference to the moved data");
-  TEST_ASSERT(list.data() == nullptr, "Old list has invalid data reference after move");
-  TEST_ASSERT(list.size() == 0, "Old list has non-zero size " + std::to_string(list.size()) + " after move");
+
+  // check if old list is valid (size equals number of nodes) 
+  {
+    std::size_t counter = 0;
+    auto currentElement = list.data();
+    while(currentElement != nullptr) {
+      currentElement = currentElement->next;
+      ++counter;
+    }
+    TEST_ASSERT(counter == list.size(), "List has invalid state after move");
+  }
+
+  // check if old list is in a destructible state (not leaks on desctruction)
+  // Cannot check this in an assert, address sanitizer will detect this at runtime
 
   return EXIT_SUCCESS;
 }

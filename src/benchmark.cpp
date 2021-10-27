@@ -17,37 +17,48 @@ template <bool MOVE, bool ASSIGN> double runtest(std::vector<List> initial) {
   const List::Node *newDataAddress = nullptr;
 
   const auto numberOfElements = initial.back().size();
+  List list(numberOfElements, 1.);
+  Duration duration = {};
 
-  auto start = Clock::now();
   for (auto &it : initial) {
-    // if constexpr makes sure the if is evaluated at compiletime
+    // if constexpr makes sure the if is evaluated at compile time
     if constexpr (MOVE) {
       if constexpr (ASSIGN) {
-        List list(numberOfElements/2, 1.);
-        // std::cout << list.data() << std::endl;
+        auto start = Clock::now();
         list = std::move(it);
+        auto stop = Clock::now();
         newDataAddress = list.data();
-      } else {
+        duration += Duration(stop - start);
+      } 
+      else {
+        auto start = Clock::now();
         List list(std::move(it));
+        auto stop = Clock::now();
         newDataAddress = list.data();
+        duration += Duration(stop - start);        
       }
-    } else {
+    } 
+    else {
       if constexpr (ASSIGN) {
-        List list(numberOfElements/2, 1.);
+        auto start = Clock::now();
         list = it;
-        newDataAddress = list.data();
+        auto stop = Clock::now();
+        newDataAddress = list.data();       
+        duration += Duration(stop - start);        
       } else {
+        auto start = Clock::now();
         List list(it);
-        newDataAddress = list.data();
+        auto stop = Clock::now();
+        newDataAddress = list.data();  
+        duration += Duration(stop - start);        
       }
     }
   }
-  auto stop = Clock::now();
-
+  
   std::cout << std::setw(16) << oldDataAddress << " | " << std::setw(16)
             << newDataAddress << " | " << initial.back().data() << "\n\n";
 
-  return Duration(stop - start).count() / initial.size();
+  return duration.count() / initial.size();
 }
 
 int main() {
@@ -61,17 +72,17 @@ int main() {
   std::cout << std::setprecision(2);
 
   std::cout << "Copy:\n";
-  std::cout << "Old Data before  | New data after   | Old Data after\n";
+  std::cout << "Old data before  | New data after   | Old Data after\n";
   auto copyTime = runtest<false, false>(initialValues);
   std::cout << "Move:\n";
-  std::cout << "Old Data before  | New data after   | Old Data after\n";
+  std::cout << "Old data before  | New data after   | Old Data after\n";
   auto moveTime = runtest<true, false>(initialValues);
 
   std::cout << "Copy Assign:\n";
-  std::cout << "Old Data before  | New data after   | Old Data after\n";
+  std::cout << "Old data before  | New data after   | Old Data after\n";
   auto cassTime = runtest<false, true>(initialValues);
   std::cout << "Move Assign:\n";
-  std::cout << "Old Data before  | New data after   | Old Data after\n";
+  std::cout << "Old data before  | New data after   | Old Data after\n";
   auto massTime = runtest<true, true>(initialValues);
 
   std::cout << "\nRuntimes of constructing list objects:\n\n";

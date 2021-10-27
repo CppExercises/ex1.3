@@ -1,27 +1,26 @@
-#include <bits/thread-shared-types.h>
+#include "list.hpp"
 #include <cstddef>
-#include <utility>
 
-#include <list.hpp>
 
-List::Node::Node(const List::value_type &val) : value(val) {}
+List::Node::Node(const List::value_type &val) : value{val} {}
 
 // default constructor
 List::List() {}
 
 // user-defined constructor
 List::List(size_type count, const value_type &value) {
-  for(std::size_t i = 0; i < count; ++i) {
+  for (std::size_t i = 0; i < count; ++i) {
     push_front(value);
   }
 }
 
 // destructor
 List::~List() {
-  while(_size > 0) pop_front();
+  while (_size > 0)
+    pop_front();
 }
 
-// access current number of nodes in list 
+// access current number of nodes in list
 List::size_type List::size() const { return _size; }
 
 // obtain root element pointer

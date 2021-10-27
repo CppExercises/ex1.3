@@ -5,7 +5,7 @@ Make sure that all your solutions are uploaded to our [Gitea Server](tea.iue.tuw
 
 ## Task description
 
-In this exercise, it is your task to extended a basic implementation `List` of a single-linked-list declared in `include/list.hpp`.
+In this exercise, it is your task to extend a basic implementation `List` of a single-linked-list declared in `include/list.hpp`.
 More specifically, the provided implementation in `include/list.hpp` contains a user-defined constructor and correct user-defined destructor.
 
 It is your task to implement the remaining special member functions for this resource owning class `List`, which are **defaulted** in the provided implementation:
@@ -25,16 +25,16 @@ Their *declarations* are contained in `include/list.hpp`:
 Your task is to implement the *definitions* of these functions in `lib/listSMF.cpp` which already contains the defaulted special member functions:
 ```C++
 // copy constructor
-List::List(const List &list) = default;
+List::List(const List &other) = default;
 
 // move constructor
-List::List(List &&list) = default;
+List::List(List &&other) = default;
 
 // copy assignment operator
-List &List::operator=(const List &list) = default;
+List &List::operator=(const List &other) = default;
 
 // move assignment operator
-List &List::operator=(List &&list) = default;
+List &List::operator=(List &&other) = default;
 ```
 
 **Your implementation must strictly be confined to `lib/listSMF.cpp` and you must not change any other files.**
@@ -52,16 +52,13 @@ As usual, you are provided with several tests to check the correct funcitonality
 ## Benchmarking
 For testing your implementation and its performance, a benchmark is provided in `src/benchmark.cpp`.
 Similar to the last exercise it will inform you about the memory location of the *head* of the list before and after each operation.
+**Note: Without reasonable implementations of the SMF (1) (2) (3) and (4) the benchmark will fail at run time, i.e., the sanitizer will detect incorrect memory access with errors like "double free" or "use after free".**
 
 The executable also measures the runtime of all 4 special member functions. Prepare yourself for a discussion on the runtimes of the different SMFs and why this is the case.
 
 ## Sanitizing
-The provided `CMakeLists.txt` builds the benchmark and turns on the AddressSanitizer (gcc/clang) to detect memory related problems (e.g., leaks and out-of-bound accesses, see [Item 001](https://cppitems.github.io/#/item/001)). 
-We will use this to detect problems in your submitted implementation and it is recommended that you also use the AddressSanitizer (or a equivalent tool on you platform) for tests during development.
-
-## Sanitizing
 The provided `CMakeLists.txt` builds the benchmark and turns on the AddressSanitizer (gcc/clang) to detect memory related problems (e.g., leaks and out-of-bound access). 
-We will use this to detect problems in your submitted implementation and it is recommended that you also use the AddressSanitizer (or a equivalent tool on you platform) for tests during development. Note that these tools are available by default in the online IDE at [https://advcpp.ide.iue.tuwien.ac.at](https://advcpp.ide.iue.tuwien.ac.at) , but should also work with any standard gcc  or clang install.
+We will use this to detect problems in your submitted implementation and it is recommended that you also use the AddressSanitizer (or a equivalent tool on you platform) for tests during development. Note that these tools are available by default in the online IDE at [https://advcpp.ide.iue.tuwien.ac.at](https://advcpp.ide.iue.tuwien.ac.at) , but should also work with any standard gcc or clang install.
 
 CMake will check if there is an address sanitizer available and notify you when executing `cmake ..`:
 ```

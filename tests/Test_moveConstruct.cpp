@@ -19,14 +19,16 @@ int main() {
   // check validity of new list
   TEST_ASSERT(newList.data() == originalData, "Data was not moved from old list");
   TEST_ASSERT(newList.size() == originalSize, "Size was changed during move");
-  std::size_t counter = 0;
-  auto currentElement = newList.data();
-  while(currentElement != nullptr) {
-    TEST_ASSERT(currentElement->value == value, "Values of list have changed during move");
-    currentElement = currentElement->next;
-    ++counter;
+  {
+    std::size_t counter = 0;
+    auto currentElement = newList.data();
+    while(currentElement != nullptr) {
+      TEST_ASSERT(currentElement->value == value, "Values of list have changed during move");
+      currentElement = currentElement->next;
+      ++counter;
+    }
+    TEST_ASSERT(counter == numberOfElements, "List has wrong size after move");
   }
-  TEST_ASSERT(counter == numberOfElements, "List has wrong size after move");
 
   // check validity of old list
   TEST_ASSERT(list.data() != originalData, "Old list still holds reference to the moved data");

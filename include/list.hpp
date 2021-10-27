@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstddef>
-#include <utility>
 
 class List {
 public:
@@ -17,7 +16,7 @@ public:
 
 private:
   Node *_head = nullptr; // root element
-  size_type _size = 0; // current number of nodes in list
+  size_type _size = 0;   // current number of nodes in list
 
 public:
   // default ctor
@@ -33,7 +32,7 @@ public:
 
   // dtor
   ~List();
-  // access current number of nodes in list 
+  // access current number of nodes in list
   size_type size() const;
   // obtain root element pointer
   const Node *data() const;
