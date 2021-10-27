@@ -8,9 +8,10 @@ project(Tests LANGUAGES CXX)
 add_custom_target(myTests)
 
 set(MY_TEST_NAMES "")
-list(APPEND MY_TEST_NAMES "TestA_destructor")
-list(APPEND MY_TEST_NAMES "TestB_copyConstructor")
-list(APPEND MY_TEST_NAMES "TestC_moveConstructor")
+list(APPEND MY_TEST_NAMES "Test_moveAssign")
+list(APPEND MY_TEST_NAMES "Test_moveConstruct")
+list(APPEND MY_TEST_NAMES "Test_copyAssign")
+list(APPEND MY_TEST_NAMES "Test_copyConstruct")
 
 foreach(MY_TEST_NAME ${MY_TEST_NAMES})
   add_executable(${MY_TEST_NAME} ${MY_TEST_NAME}.cpp testasserts.hpp)

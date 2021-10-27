@@ -29,8 +29,8 @@ public:
   };
 
 private:
-  /*f4*/ Node *dataHead; // root element
-  size_type dataSize;
+  /*f4*/ Node *_head; // root element
+  size_type _size;
 
 public:
   // default ctor

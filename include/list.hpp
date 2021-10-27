@@ -16,8 +16,8 @@ public:
   };
 
 private:
-  Node *dataHead = nullptr; // root element
-  size_type dataSize = 0; // current number of nodes in list
+  Node *_head = nullptr; // root element
+  size_type _size = 0; // current number of nodes in list
 
 public:
   // default ctor
@@ -34,9 +34,9 @@ public:
   // dtor
   ~List();
   // access current number of nodes in list 
-  size_type size();
+  size_type size() const;
   // obtain root element pointer
-  Node *data();
+  const Node *data() const;
   // access front element
   value_type &front();
   // push new list element at the front

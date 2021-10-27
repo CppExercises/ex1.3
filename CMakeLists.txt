@@ -16,13 +16,13 @@ message(STATUS "-----> Current build type set to: ${CMAKE_BUILD_TYPE}")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   # strict compilation
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -pedantic")
-  # enable ASAN 
+  # enable ASAN
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fno-omit-frame-pointer -fsanitize=address")
   set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUGS} -fno-omit-frame-pointer -fsanitize=address")
   if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     message(STATUS "-----> Congratulations, you are using the address sanitizer")
   else()
-    message(STATUS "-----> Address sanitizer is only tured on for the build type: Debug")
+    message(STATUS "-----> Address sanitizer is only turned on for the build type: Debug")
   endif()
 else()
 message(STATUS "-----> WARNING: ADDRESS SANITIZER IS NOT AVAILABLE")
@@ -46,13 +46,13 @@ else(MY_LIBRARY_SOURCES)
 endif(MY_LIBRARY_SOURCES)
 
 # # by default tests are built, but this can be turned off using: cmake -DBUILD_TESTS=OFF ..
-# option(BUILD_TESTS "Build unit tests." ON)
-# if(BUILD_TESTS)
-#   # Activate CTest testing framework
-#   enable_testing()
-#   # Add all tests in folder "tests" to the testing
-#   add_subdirectory("tests")
-# endif()
+option(BUILD_TESTS "Build unit tests." ON)
+if(BUILD_TESTS)
+  # Activate CTest testing framework
+  enable_testing()
+  # Add all tests in folder "tests" to the testing
+  add_subdirectory("tests")
+endif()
 
 # Now build additional target to execute benchmarks of the different types of implementations
 option(BUILD_BENCHMARK "Build the benchmark" ON)

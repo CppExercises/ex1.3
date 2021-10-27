@@ -10,51 +10,40 @@ List::Node::Node(const List::value_type &val) : value(val) {}
 List::List() {}
 
 // user-defined constructor
-List::List(size_type count, const value_type &value) : dataSize(count) {
-  dataHead = new Node(value);
-  Node *lastNode = dataHead; // root node
-  for (size_type i = 1; i < dataSize; ++i) {
-    Node *newNode = new Node(value);
-    lastNode->next = newNode;
-    lastNode = newNode;
+List::List(size_type count, const value_type &value) {
+  for(std::size_t i = 0; i < count; ++i) {
+    push_front(value);
   }
 }
 
 // destructor
 List::~List() {
-  Node *currentNode = dataHead;
-  Node *nextNode;
-  while (currentNode != nullptr) {
-    nextNode = currentNode->next;
-    delete currentNode;
-    currentNode = nextNode;
-  }
-  dataSize = 0;
+  while(_size > 0) pop_front();
 }
 
 // access current number of nodes in list 
-List::size_type List::size() { return dataSize; }
+List::size_type List::size() const { return _size; }
 
 // obtain root element pointer
-List::Node *List::data() { return dataHead; }
+const List::Node *List::data() const { return _head; }
 
 // access front element
-List::value_type &List::front() { return dataHead->value; }
+List::value_type &List::front() { return _head->value; }
 
 // push new list element at the front
 void List::push_front(const value_type &value) {
-  Node *nextDataHead = new Node(value);
-  nextDataHead->next = dataHead;
-  dataHead = nextDataHead;
-  ++dataSize;
+  Node *next_head = new Node(value);
+  next_head->next = _head;
+  _head = next_head;
+  ++_size;
 }
 
 // pop element at the front
 void List::pop_front() {
-  if (dataHead != nullptr) {
-    Node *oldDataHead = dataHead;
-    dataHead = oldDataHead->next;
-    delete oldDataHead;
-    --dataSize;
+  if (_head != nullptr) {
+    Node *old_head = _head;
+    _head = old_head->next;
+    delete old_head;
+    --_size;
   }
 }
