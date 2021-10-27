@@ -29,32 +29,30 @@ template <bool MOVE, bool ASSIGN> double runtest(std::vector<List> initial) {
         auto stop = Clock::now();
         newDataAddress = list.data();
         duration += Duration(stop - start);
-      } 
-      else {
+      } else {
         auto start = Clock::now();
         List list(std::move(it));
         auto stop = Clock::now();
         newDataAddress = list.data();
-        duration += Duration(stop - start);        
+        duration += Duration(stop - start);
       }
-    } 
-    else {
+    } else {
       if constexpr (ASSIGN) {
         auto start = Clock::now();
         list = it;
         auto stop = Clock::now();
-        newDataAddress = list.data();       
-        duration += Duration(stop - start);        
+        newDataAddress = list.data();
+        duration += Duration(stop - start);
       } else {
         auto start = Clock::now();
         List list(it);
         auto stop = Clock::now();
-        newDataAddress = list.data();  
-        duration += Duration(stop - start);        
+        newDataAddress = list.data();
+        duration += Duration(stop - start);
       }
     }
   }
-  
+
   std::cout << std::setw(16) << oldDataAddress << " | " << std::setw(16)
             << newDataAddress << " | " << initial.back().data() << "\n\n";
 
@@ -63,7 +61,7 @@ template <bool MOVE, bool ASSIGN> double runtest(std::vector<List> initial) {
 
 int main() {
   std::size_t size = 100'000; // list length 0.1M == ~1.6 MB
-  std::size_t n = 5;            // iterations for averaging run time
+  std::size_t n = 5;          // iterations for averaging run time
 
   // make n vectors that we want to use to initialise n instances of Widget
   std::vector<List> initialValues(n, List(size, 42.));
@@ -89,8 +87,8 @@ int main() {
 
   std::cout << std::left << std::setw(40)
             << "Copy constructor List(const List&)" << std::setw(34)
-            << "called as List(list)" << std::right << std::setw(10)
-            << copyTime << " s" << std::endl;
+            << "called as List(list)" << std::right << std::setw(10) << copyTime
+            << " s" << std::endl;
   std::cout << std::left << std::setw(40) << "Move constructor List(List&&)"
             << std::setw(34) << "called as List(std::move(list))" << std::right
             << std::setw(10) << moveTime << " s" << std::endl;
@@ -100,8 +98,8 @@ int main() {
             << "called as listB = listA" << std::right << std::setw(10)
             << cassTime << " s" << std::endl;
   std::cout << std::left << std::setw(40) << "Move assignment operator=(List&&)"
-            << std::setw(34) << "called as listB = std::move(listA)" << std::right
-            << std::setw(10) << massTime << " s" << std::endl;
+            << std::setw(34) << "called as listB = std::move(listA)"
+            << std::right << std::setw(10) << massTime << " s" << std::endl;
 
   std::cout << "\n" << std::endl;
 

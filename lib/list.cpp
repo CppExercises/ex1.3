@@ -1,7 +1,6 @@
 #include "list.hpp"
 #include <cstddef>
 
-
 List::Node::Node(const List::value_type &val) : value{val} {}
 
 // default constructor
