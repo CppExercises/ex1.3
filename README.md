@@ -1,113 +1,77 @@
-1 // item status
 # Exercise EX1.3
-This exercise is part **three** of three parts of EX1. See also [Item 000](https://cppitems.github.io/#/item/000) for an overview and deadlines. The submission deadline for EX1 (all three parts) is **Mo 09.11.2020, 4pm**. The sources related to EX1.3 are available at [Item 008](https://github.com/cppitems/cppitems/tree/master/items/008).
+This exercise is part **3** of three parts of EX1. See also [Item 000](https://cppitems.github.io/#/item/000) for an overview and deadlines. The submission deadline for EX1 (all three parts) is **Mo 08.11.2021, 4pm**. The sources related to EX1.3 are available at [https://github.com/cppitems/ex1.3](https://github.com/cppitems/ex1.3).
+
+Make sure that all your solutions are uploaded to our [Gitea Server](tea.iue.tuwien.ac.at) before the deadline and are each contained in their correct repositoriy **ex1.1**, **ex1.2**, **ex1.3**, respectively.
 
 ## Task description
 
-In this exercise, it is your task to extended a (very basic) implementation `List` of a single-linked-list (provided in `list.hpp`).
-More specifically, the provided implementation in `list.hpp` comprises a user-defined constructor and correct user-defined destructor.
+In this exercise, it is your task to extended a basic implementation `List` of a single-linked-list declared in `include/list.hpp`.
+More specifically, the provided implementation in `include/list.hpp` contains a user-defined constructor and correct user-defined destructor.
 
-It is your task to implement the remaining special member functions for this resource owning class `List`, which are *deleted* in the provided implementation:
+It is your task to implement the remaining special member functions for this resource owning class `List`, which are **defaulted** in the provided implementation:
 - (1) the copy constructor,
 - (2) the move constructor,
 - (3) the copy assignment operator, and
 - (4) the move assignment operator.
 
-You should only change code of these four special member functions.
-The declaration of `List` you start with looks like this:
-```pmans
-template <class /*b1*/ T> class /*f4*/ List {
-public:
-  using /*f*/ value_type /*x*/ = /*b1*/ T;
-  using size_type = std::size_t;
-
-  // nested class
-  struct /*f4*/ Node {
-    /*f*/ value_type /*x*/ value;
-    /*f4*/ Node *next;
-    /*f4*/ Node(const /*f*/ value_type & /*x*/val);
-  };
-
-private:
-  /*f4*/ Node *_head; // root element
-  size_type _size;
-
-public:
-  // default ctor
-  /*f4*/ List();
-  // custom ctor
-  /*f4*/ List(size_type count, const /*f*/ value_type & /*x*/value);
-
-  // you task it to implement the four currently deleted SMFs (1,2,3,4) below
-  // according to the needs of this resource owning class
-
-  /*f4*/ List(const /*f6*/ List &other) = /*b6*/ delete;                  // (1) copy-ctor
-  /*f4*/ List(/*f7*/ List &&other) = /*b6*/ delete;                       // (2) move-ctor
-  /*f4*/ List &operator=(const /*f6*/ List &other) = /*b6*/ delete;       // (3) copy-assignment
-  /*f4*/ List &operator=(/*f7*/ List &&other) = /*b6*/ delete;            // (4) move-assignment
-
-  // dtor
-  ~List();
-
-  size_type size();
-  /*f4*/ Node *data();
-  /*f*/ value_type & /*x*/front();
-  void push_front(const /*f*/ value_type & /*x*/value);
-  void pop_front();
-};
+Their *declarations* are contained in `include/list.hpp`:
+```C++
+  List(const List &);
+  List(List &&);
+  List &operator=(const List &);
+  List &operator=(List &&);
 ```
+
+Your task is to implement the *definitions* of these functions in `lib/listSMF.cpp` which already contains the defaulted special member functions:
+```C++
+// copy constructor
+List::List(const List &list) = default;
+
+// move constructor
+List::List(List &&list) = default;
+
+// copy assignment operator
+List &List::operator=(const List &list) = default;
+
+// move assignment operator
+List &List::operator=(List &&list) = default;
+```
+
+**Your implementation must strictly be confined to `lib/listSMF.cpp` and you must not change any other files.**
+
 Prepare yourself for a discussion of your implementation. 
 
+## Tests
+
+As usual, you are provided with several tests to check the correct funcitonality of your implementation. There is no specific order in which the tests should be executed, as they are independent of each other. There is one test for each SMF:
+- Test_copyAssign
+- Test_copyConstruct
+- Test_moveAssign
+- Test_moveConstruct
+
 ## Benchmarking
-For testing your implementation and its performance, a benchmark is provided in `benchmarking_list.cpp`. 
-It measures and compares the run time for
-- copy construction
-```pmans
-    using ListD = List<double>;
-    ListD var = ListD(size, std::rand());
-    ListD w /*b1*/ = var; // invoking copy-ctor
-```   
-- move construction:
-```pmans
-    
-    ListD var = ListD(size, std::rand());
-    ListD w /*b1*/ = /*f9*/ std::move(var); // invoking move-ctor
-```
-- copy assignment:
-```pmans
-    ListD var = ListD(size, std::rand());
-    ListD w;
-    w /*b1*/ = var; // invoking copy-assign
-```
-- move assignment:
-```pmans
-    ListD var = ListD(size, std::rand());
-    ListD w;
-    w /*b1*/ = /*f9*/ std::move(var); // invoking move-assign
-```
+For testing your implementation and its performance, a benchmark is provided in `src/benchmark.cpp`.
+Similar to the last exercise it will inform you about the memory location of the *head* of the list before and after each operation.
+
+The executable also measures the runtime of all 4 special member functions. Prepare yourself for a discussion on the runtimes of the different SMFs and why this is the case.
 
 ## Sanitizing
 The provided `CMakeLists.txt` builds the benchmark and turns on the AddressSanitizer (gcc/clang) to detect memory related problems (e.g., leaks and out-of-bound accesses, see [Item 001](https://cppitems.github.io/#/item/001)). 
 We will use this to detect problems in your submitted implementation and it is recommended that you also use the AddressSanitizer (or a equivalent tool on you platform) for tests during development.
 
-## Submission
-Finally, you should submit EX1 (all three parts) using a single repository `ex1`.
-Therefore you repo should look like this after EX1.3:
-```
-benchmark_initializers.cpp
-benchmark_constructors.cpp
-benchmark_list.cpp
-CMakeLists.txt
-vector.hpp
-list.hpp
-```
-Further you should add all relevant targets in the `CMakeLists.txt` which should look similar to this after EX1.3:
+## Sanitizing
+The provided `CMakeLists.txt` builds the benchmark and turns on the AddressSanitizer (gcc/clang) to detect memory related problems (e.g., leaks and out-of-bound access). 
+We will use this to detect problems in your submitted implementation and it is recommended that you also use the AddressSanitizer (or a equivalent tool on you platform) for tests during development. Note that these tools are available by default in the online IDE at [https://advcpp.ide.iue.tuwien.ac.at](https://advcpp.ide.iue.tuwien.ac.at) , but should also work with any standard gcc  or clang install.
 
+CMake will check if there is an address sanitizer available and notify you when executing `cmake ..`:
 ```
-cmake_minimum_required(VERSION 3.0)
-set(CMAKE_CXX_FLAGS "-std=c++17 -Werror -Wall" CACHE STRING "")
-project(ex1 LANGUAGES CXX)
-add_executable(benchmark_initializers benchmark_initializers.cpp)
-add_executable(benchmark_constructors benchmark_constructors.cpp) 
-add_executable(benchmark_list benchmark_list.cpp) 
+-----> Congratulations, you are using the address sanitizer
 ```
+**NOTE**: The sanitizer will only be turned on when the cmake build type is `Debug`. If you changed the build type to something different, the sanitizer will not be used.
+
+**In case the address sanitizer cannot be turned on, you will receive a warning**:
+```
+-----> WARNING: ADDRESS SANITIZER IS NOT AVAILABLE
+```
+
+You are not required to work with the sanitizer, although we strongly encourage it to avoid memory related errors. If you cannot get sanitizers to work on your local machine, you can use the provided online IDE at [https://advcpp.ide.iue.tuwien.ac.at](https://advcpp.ide.iue.tuwien.ac.at) .
