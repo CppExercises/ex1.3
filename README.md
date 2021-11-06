@@ -3,6 +3,35 @@ This exercise is part **3** of three parts of EX1. See also [Item 000](https://c
 
 Make sure that all your solutions are uploaded to our [Gitea Server](tea.iue.tuwien.ac.at) before the deadline and are each contained in their correct repositoriy **ex1.1**, **ex1.2**, **ex1.3**, respectively.
 
+## Running Result
+
+```bash
+wang@wang-virtual-machine:~/Documents/ex1.3/build$ ./benchmark 
+Copy:
+Old data before  | New data after   | Old Data after
+  0x602002191bf0 |   0x6020033e13f0 | 0x602002191bf0
+
+Move:
+Old data before  | New data after   | Old Data after
+  0x6020043237f0 |   0x6020043237f0 | 0
+
+Copy Assign:
+Old data before  | New data after   | Old Data after
+  0x602005572ff0 |   0x6020067c27f0 | 0x602005572ff0
+
+Move Assign:
+Old data before  | New data after   | Old Data after
+  0x602007704bf0 |   0x602007704bf0 | 0
+
+
+Runtimes of constructing list objects:
+
+Copy constructor List(const List&)      called as List(list)                1.16e-02 s
+Move constructor List(List&&)           called as List(std::move(list))     8.33e-07 s
+Copy assignment operator=(const List&)  called as listB = listA             1.85e-02 s
+Move assignment operator=(List&&)       called as listB = std::move(listA)  7.05e-03 s
+```
+
 ## Task description
 
 In this exercise, it is your task to extend a basic implementation `List` of a single-linked-list declared in `include/list.hpp`.

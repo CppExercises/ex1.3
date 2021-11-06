@@ -29,15 +29,29 @@ const List::Node *List::data() const { return _head; }
 List::value_type &List::front() { return _head->value; }
 
 // push new list element at the front
-void List::push_front(const value_type &value) {
+void List::push_front(const value_type &value)
+{
   Node *next_head = new Node(value);
   next_head->next = _head;
   _head = next_head;
   ++_size;
 }
 
+/* push new list element at the tail
+void List::push_tail(const value_type &value)
+{
+  Node *next_head = new Node(value);
+  next_head = _head;
+  for(std::size_t i = 0; i < _size; i++)
+  {
+    next_head = next_head->next;
+  }
+  
+  
+}*/
+
 // pop element at the front
-void List::pop_front() {
+void List::pop_front(){
   if (_head != nullptr) {
     Node *old_head = _head;
     _head = old_head->next;
